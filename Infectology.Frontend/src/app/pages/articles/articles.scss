@@ -1,0 +1,46 @@
+.articles-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 24px;
+}
+
+.articles-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 24px;
+  align-items: stretch;
+}
+
+.article-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100%;
+  box-sizing: border-box;
+}
+
+.article-card mat-card-header {
+  min-height: 90px;
+}
+
+.article-card img {
+  max-height: 240px;
+  object-fit: cover;
+}
+
+.article-card mat-card-content {
+  flex: 1;
+}
+
+.article-card mat-card-actions {
+  margin-top: auto;
+}
+
+.article-card mat-card-content p {
+  white-space: pre-line;
+}
+
+.article-heading {
+  line-height: 2rem;
+  font-size: 1.6rem;
+}

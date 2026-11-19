@@ -1,0 +1,47 @@
+<header class="header">
+  <mat-toolbar class="toolbar">
+    <a class="brand" aria-label="Slovenská spoločnosť infektológov SLS – úvodná stránka" routerLink="/">
+      <img class="logo" src="assets/ssi-logo-sk-color.png" alt="" width="900" height="249" />
+    </a>
+
+    @if (authService.isLoggedIn()) {
+      <nav class="nav" aria-label="Navigácia pre členov">
+        <a mat-button routerLink="/home"
+          routerLinkActive="active"
+          [routerLinkActiveOptions]="{ exact: true }"
+          ariaCurrentWhenActive="page">
+          Prehľad
+        </a>
+
+    @if (authService.getRole() === 'Admin' || authService.getRole() === 'Doctor') {
+      <a mat-button routerLink="/documents"
+         routerLinkActive="active"
+         [routerLinkActiveOptions]="{ exact: true }"
+         ariaCurrentWhenActive="page">
+        Dokumenty
+      </a>
+    }
+
+      <a mat-button routerLink="/">Verejná stránka</a>
+    </nav>
+    } @else {
+      <nav class="nav" aria-label="Hlavná navigácia">
+        @for (link of links; track link.id) {
+          <a mat-button [href]="'#' + link.id" (click)="scrollTo($event, link.id)">
+            {{ link.label }}
+          </a>
+        }
+      </nav>
+    }
+
+    <div class="actions">
+      @if (authService.isLoggedIn()) {
+        <span class="user-name">{{ authService.getFirstName() }}</span>
+        <button mat-button type="button" (click)="logout()">Odhlásiť sa</button>
+      } @else {
+        <button mat-button type="button" routerLink="/login">Prihlásiť</button>
+        <button mat-flat-button type="button" routerLink="/register">Stať sa členom</button>
+      }
+    </div>
+  </mat-toolbar>
+</header>

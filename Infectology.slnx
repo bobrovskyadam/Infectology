@@ -1,0 +1,20 @@
+<Solution>
+  <Folder Name="/Backend/">
+    <Project Path="Infectology.Database/Infectology.Database.csproj" Id="8274e688-894f-455c-b087-05a095fb1b99" />
+    <Project Path="Infectology.WebAPI/Infectology.WebAPI.csproj" Id="db03aa04-8fee-46d8-b94a-bbce8c72415f" />
+  </Folder>
+  <Folder Name="/Documentation/" />
+  <Folder Name="/Libraries/">
+    <Project Path="Infectology.Library/Infectology.Library.csproj" />
+  </Folder>
+  <Folder Name="/Solution Items/">
+    <File Path=".gitignore" />
+    <File Path="azure-pipeline-ci.yml" />
+    <File Path="Directory.Build.props" />
+    <File Path="Directory.Packages.props" />
+    <File Path="README.md" />
+  </Folder>
+  <Folder Name="/Testing/">
+    <Project Path="Infectology.Tests/Infectology.Tests.csproj" Id="586f4a38-bdd4-4921-8b34-e5033375d416" />
+  </Folder>
+</Solution>

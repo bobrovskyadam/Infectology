@@ -1,0 +1,47 @@
+
+<main class="article-detail-container">
+  @if (loading()) {
+    <p>Načítavam článok...</p>
+  } @else if (errorMessage()) {
+    <p>{{ errorMessage() }}</p>
+
+    <a matButton routerLink="/articles">
+      Späť na články
+    </a>
+  } @else if (article(); as currentArticle) {
+    <mat-card appearance="outlined" class="article-detail-card">
+      <mat-card-header>
+        <mat-card-title>
+          {{ currentArticle.heading }}
+        </mat-card-title>
+
+        <mat-card-subtitle>
+          Vytvorené:
+          {{ currentArticle.dateTimeCreated | date:'dd.MM.yyyy' }}
+        </mat-card-subtitle>
+      </mat-card-header>
+
+      @if (currentArticle.headingImage) {
+        <img
+          mat-card-image
+          [src]="currentArticle.headingImage"
+          [alt]="currentArticle.heading"
+        />
+      }
+
+      <mat-card-content>
+        <p class="article-content">
+          {{ currentArticle.markdown }}
+        </p>
+      </mat-card-content>
+
+      <mat-card-actions>
+        <!-- <a  routerLink="/articles"
+            matIconButton>
+          <mat-icon>edit</mat-icon>Späť na články
+        </a> -->
+         <a routerLink="/articles" matButton><mat-icon>arrow_left_alt</mat-icon>Späť na články</a>
+      </mat-card-actions>
+    </mat-card>
+  }
+</main>

@@ -1,0 +1,53 @@
+<main class="articles-container">
+  <h1>Články</h1>
+
+  @if (loading()) {
+    <p>Načítavam články...</p>
+  } @else if (errorMessage()) {
+    <p>{{ errorMessage() }}</p>
+  } @else {
+    <section class="articles-grid">
+      @for (article of articles(); track article.id) {
+        <mat-card class="article-card" appearance="outlined">
+          <mat-card-header>
+
+            <mat-card-title>
+              <h2 class="article-heading">{{ article.heading }}</h2>
+            </mat-card-title>
+
+            <mat-card-subtitle>
+              {{ article.dateTimeCreated | date:'dd.MM.yyyy' }}
+            </mat-card-subtitle>
+          </mat-card-header>
+
+          @if (article.headingImage) {
+            <img
+              mat-card-image
+              [src]="article.headingImage"
+              [alt]="article.heading"
+            />
+          }
+
+          <mat-card-content>
+            <!-- <p>{{ article.markdown }}</p> -->
+            <p class="article-preview">
+                {{ article.markdown | slice:0:150 }}
+                @if (article.markdown.length > 150) {
+                  ...
+                }
+            </p>
+          </mat-card-content>
+          <mat-card-actions>
+            <button 
+              matButton="filled"
+              [routerLink]="['/articles', article.id]">
+              Čítať viac
+            </button>
+          </mat-card-actions>
+        </mat-card>
+      } @empty {
+        <p>Nenašli sa žiadne články.</p>
+      }
+    </section>
+  }
+</main>

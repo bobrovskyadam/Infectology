@@ -1,0 +1,12 @@
+[
+  {
+    "Name": "Backend",
+    "Projects": [
+      {
+        "Path": "Infectology.WebAPI\\Infectology.WebAPI.csproj",
+        "Action": "Start",
+        "DebugTarget": "https"
+      }
+    ]
+  }
+]

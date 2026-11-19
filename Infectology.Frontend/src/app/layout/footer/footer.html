@@ -1,0 +1,46 @@
+<footer class="footer">
+  <div class="inner">
+    <div class="grid">
+      <div class="col brand-col">
+        <div class="brand">
+          <img class="logo" src="assets/ssi-logo-sk-white.png" alt="Slovenská spoločnosť infektológov" width="900" height="249" />
+        </div>
+        <p>
+          Odborná spoločnosť lekárov v infektológii,
+          súčasť Slovenskej lekárskej spoločnosti.
+        </p>
+      </div>
+
+      <div class="col">
+        <h2>Kontakt</h2>
+        <span class="placeholder">Rastislavova 43, 041 90 Košice</span>
+        <span class="placeholder">infekcne@unlp.sk</span>
+      </div>
+
+      <nav class="col" aria-label="Navigácia v päte">
+        <h2>Navigácia</h2>
+        @for (link of links; track link.id) {
+          <a [href]="'#' + link.id" (click)="scrollTo($event, link.id)">{{ link.label }}</a>
+        }
+        <span>Pre verejnosť</span>
+      </nav>
+
+      <div class="col">
+        <h2>Pre členov</h2>
+        <a routerLink="/login">Prihlásenie</a>
+        <a routerLink="/register">Registrácia</a>
+      </div>
+    </div>
+
+    <div class="bottom">
+      <span>© {{ year }} Slovenská spoločnosť infektológov SLS</span>
+      <div class="legal">
+        <span class="placeholder">[Ochrana osobných údajov]</span>
+        <span class="placeholder">[Cookies]</span>
+        <button mat-button type="button" (click)="scrollTo($event, 'top')">
+          Späť na začiatok <span aria-hidden="true">↑</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</footer>

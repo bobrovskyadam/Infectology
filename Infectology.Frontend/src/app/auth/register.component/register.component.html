@@ -1,0 +1,652 @@
+
+<div class="register-page">
+  <div class="register-container">
+
+    <h1>Registrácia</h1>
+
+
+    @if (showTestDataButton) {
+      <button type="button" (click)="fillTestData()">
+        Vyplniť testovacie údaje
+      </button>
+    }
+
+    <!-- STEP INDICATOR -->
+    <ol class="step-indicator" aria-label="Postup registrácie">
+      @for (step of steps; track step.number) {
+        <li
+          [class.is-active]="registerStep === step.number"
+          [class.is-complete]="registerStep > step.number"
+          [attr.aria-current]="registerStep === step.number ? 'step' : null">
+          <span class="step-number" aria-hidden="true">{{ step.number }}</span>
+          <span class="step-label">{{ step.label }}</span>
+        </li>
+      }
+    </ol>
+
+    <!-- MAIN REGISTRATION FORM -->
+    <form [formGroup]="registerForm">
+
+      <!-- ====================================== -->
+      <!-- STEP 1 - PERSONAL INFORMATION          -->
+      <!-- ====================================== -->
+      @if (registerStep === 1) {
+
+        <h2 #stepHeading tabindex="-1">Osobné informacie</h2>
+
+        <!-- Titles -->
+        <div class="form-row-2">
+
+          <mat-form-field appearance="outline">
+            <mat-label>Titul pred menom</mat-label>
+            <input
+              matInput
+              formControlName="titleBefore"
+              data-testid="reg-title-before">
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>Titul za menom</mat-label>
+            <input
+              matInput
+              formControlName="titleAfter"
+              data-testid="reg-title-after">
+          </mat-form-field>
+
+        </div>
+
+        <!-- First name and Last name -->
+        <div class="form-row-2">
+
+          <mat-form-field appearance="outline">
+            <mat-label>Meno</mat-label>
+            <input
+              matInput
+              formControlName="firstName"
+              data-testid="reg-firstname"
+              required>
+              <mat-error>Zadajte meno</mat-error>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>Priezvisko</mat-label>
+            <input
+              matInput
+              formControlName="lastName"
+              data-testid="reg-lastname"
+              required>
+              <mat-error>Zadajte priezvisko</mat-error>
+          </mat-form-field>
+
+        </div>
+
+        <!-- Date of birth -->
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Dátum narodenia</mat-label>
+
+          <input
+            matInput
+            [matDatepicker]="birthDatePicker"
+            formControlName="birthDate"
+            data-testid="reg-birthdate"
+            required>
+
+          <mat-datepicker-toggle
+            matIconSuffix
+            [for]="birthDatePicker">
+          </mat-datepicker-toggle>
+
+          <mat-datepicker #birthDatePicker></mat-datepicker>
+
+          @if (registerForm.get('birthDate')?.hasError('required')) {
+            <mat-error>Zadajte dátum narodenia.</mat-error>
+          } @else {
+            <mat-error>Zadajte platný dátum narodenia.</mat-error>
+          }
+        </mat-form-field>
+
+        <!-- Navigation -->
+        <div class="form-actions">
+
+          <span></span>
+
+          <button
+            mat-flat-button
+            color="primary"
+            type="button"
+            (click)="nextStep()"
+            data-testid="reg-next-1">
+            Pokračovať
+          </button>
+
+        </div>
+      }
+
+      <!-- ====================================== -->
+      <!-- STEP 2 - CONTACT AND ACCOUNT           -->
+      <!-- ====================================== -->
+      @if (registerStep === 2) {
+
+        <h2 #stepHeading tabindex="-1">Kontaktné informácie</h2>
+
+        <!-- Address -->
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Adresa trvalého bydliska</mat-label>
+
+          <input
+            matInput
+            formControlName="address"
+            data-testid="reg-address"
+            placeholder="Enter address"
+            required>
+
+          <mat-icon matPrefix>location_on</mat-icon>
+          <mat-error>Zadajte adresu trvalého bydliska.</mat-error>
+        </mat-form-field>
+
+        <!-- Postal code and City -->
+        <div class="form-row-2">
+
+          <mat-form-field appearance="outline">
+            <mat-label>PSČ</mat-label>
+
+            <input
+              matInput
+              formControlName="zip"
+              data-testid="reg-zip"
+              required>
+              <mat-error>Zadajte PSČ.</mat-error>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>Mesto</mat-label>
+
+            <input
+              matInput
+              formControlName="city"
+              data-testid="reg-city"
+              required>
+            <mat-error>Zadajte mesto.</mat-error>
+          </mat-form-field>
+
+        </div>
+
+        <!-- Phone -->
+        <label class="form-label">Telefónne čislo</label>
+
+        <div class="phone-group">
+
+          <mat-form-field appearance="outline" class="phone-prefix">
+            <mat-select
+              formControlName="phonePrefix"
+              data-testid="reg-phone-prefix">
+
+              @for (prefix of phonePrefixes; track prefix.code) {
+                <mat-option [value]="prefix.code">
+                  {{ prefix.label }}
+                </mat-option>
+              }
+
+            </mat-select>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="phone-number">
+            <mat-label>Telefónne čislo</mat-label>
+
+            <input
+              matInput
+              formControlName="phone"
+              data-testid="reg-phone">
+          </mat-form-field>
+
+        </div>
+
+        <!-- Email -->
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Email</mat-label>
+
+          <input
+            matInput
+            type="email"
+            formControlName="email"
+            data-testid="reg-email"
+            required>
+          
+          @if (registerForm.get('email')?.hasError('required')) {
+            <mat-error>Zadajte emailovú adresu.</mat-error>
+          } @else {
+            <mat-error>Zadajte email v tvare meno@domena.sk.</mat-error>
+          }
+        </mat-form-field>
+
+        <!-- Fax -->
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Fax</mat-label>
+
+          <input
+            matInput
+            formControlName="fax"
+            data-testid="reg-fax">
+        </mat-form-field>
+
+        <!-- Password section -->
+        <div class="password-section">
+
+          <h3>Heslo</h3>
+          <p>*Minimálne 9 znakov, malé a veľké písmeno, číslica.</p>
+           
+
+          <!-- Password -->
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Heslo</mat-label>
+            
+
+            <input
+              matInput
+              [type]="hidePassword() ? 'password' : 'text'"
+              formControlName="password"
+              data-testid="reg-password"
+              autocomplete="new-password"
+              required>
+
+            <button
+              type="button"
+              matIconButton
+              matSuffix
+              (click)="showPassword()"
+              [attr.aria-label]="hidePassword() ? 'Zobraziť heslo' : 'Skryť heslo'">
+              <mat-icon aria-hidden="true">{{ hidePassword() ? 'visibility' : 'visibility_off' }}</mat-icon>
+            </button>
+            
+            @if (registerForm.get('password')?.hasError('required')) {
+              <mat-error>Zadajte heslo.</mat-error>
+            } @else if (registerForm.get('password')?.hasError('minlength')) {
+              <mat-error>Heslo musí mať viac ako 8 znakov.</mat-error>
+            } @else if (registerForm.get('password')?.hasError('lowercase')) {
+              <mat-error>Heslo musí obsahovať malé písmeno.</mat-error>
+            } @else if (registerForm.get('password')?.hasError('uppercase')) {
+              <mat-error>Heslo musí obsahovať veľké písmeno.</mat-error>
+            } @else if (registerForm.get('password')?.hasError('digit')) {
+              <mat-error>Heslo musí obsahovať číslicu.</mat-error>
+            }
+          </mat-form-field>
+
+          <!-- Confirm password -->
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Potvrdiť heslo</mat-label>
+
+            <input
+              matInput
+              [type]="hideConfirmPassword() ? 'password' : 'text'"
+              formControlName="confirmPassword"
+              data-testid="reg-confirm-password"
+              autocomplete="new-password"
+              required>
+            <button
+              type="button"
+              matIconButton
+              matSuffix
+              (click)="showConfirmPassword()"
+              [attr.aria-label]="hideConfirmPassword() ? 'Zobraziť potvrdenie hesla' : 'Skryť potvrdenie hesla'">
+              <mat-icon aria-hidden="true">{{ hideConfirmPassword() ? 'visibility' : 'visibility_off' }}</mat-icon>
+            </button>
+            <mat-error>Potvrďte heslo.</mat-error>
+          </mat-form-field>
+
+          <!-- Password mismatch -->
+          @if (
+            registerForm.hasError('passwordMismatch') &&
+            registerForm.get('confirmPassword')?.value
+          ) {
+            <p class="error" role="alert" data-testid="password-mismatch-error">
+              Heslá sa nezhodujú
+            </p>
+          }
+
+        </div>
+
+        <!-- Navigation -->
+        <div class="form-actions">
+
+          <button
+            mat-stroked-button
+            type="button"
+            (click)="previousStep()"
+            data-testid="reg-back-2">
+            Späť
+          </button>
+
+          <button
+            mat-flat-button
+            color="primary"
+            type="button"
+            (click)="nextStep()"
+            data-testid="reg-next-2">
+            Pokračovať
+          </button>
+
+        </div>
+      }
+
+      <!-- ====================================== -->
+      <!-- STEP 3 - WORKPLACE INFORMATION         -->
+      <!-- ====================================== -->
+      @if (registerStep === 3) {
+
+        <h2 #stepHeading tabindex="-1">Informácie o pracovisku</h2>
+
+        <!-- Workplace address -->
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Adresa pracoviska</mat-label>
+
+          <input
+            matInput
+            formControlName="workAddress"
+            data-testid="reg-work-address"
+            required>
+
+          <mat-icon matPrefix>location_on</mat-icon>
+          <mat-error>Zadajte adresu pracoviska.</mat-error>
+        </mat-form-field>
+
+        <!-- Postal code and City -->
+        <div class="form-row-2">
+
+          <mat-form-field appearance="outline">
+            <mat-label>PSČ</mat-label>
+
+            <input
+              matInput
+              formControlName="workZip"
+              data-testid="reg-work-zip"
+              required>
+            <mat-error>Zadajte PSČ pracoviska.</mat-error>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>Mesto</mat-label>
+
+            <input
+              matInput
+              formControlName="workCity"
+              data-testid="reg-work-city"
+              required>
+            <mat-error>Zadajte mesto pracoviska.</mat-error>
+          </mat-form-field>
+
+        </div>
+
+        <!-- Workplace phone -->
+        <label class="form-label">Telefónne čislo</label>
+
+        <div class="phone-group">
+
+          <mat-form-field appearance="outline" class="phone-prefix">
+            <mat-select
+              formControlName="workPhonePrefix"
+              data-testid="reg-work-phone-prefix">
+
+              @for (prefix of phonePrefixes; track prefix.code) {
+                <mat-option [value]="prefix.code">
+                  {{ prefix.label }}
+                </mat-option>
+              }
+
+            </mat-select>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="phone-number">
+            <mat-label>Telefónne čislo</mat-label>
+
+            <input
+              matInput
+              formControlName="workPhone"
+              data-testid="reg-work-phone">
+          </mat-form-field>
+
+        </div>
+
+        <!-- Workplace fax -->
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Fax</mat-label>
+
+          <input
+            matInput
+            formControlName="workFax"
+            data-testid="reg-work-fax">
+        </mat-form-field>
+
+        <!-- Workplace email -->
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Pracovný email</mat-label>
+
+          <input
+            matInput
+            type="email"
+            formControlName="workEmail"
+            data-testid="reg-work-email">
+          
+          @if (registerForm.get('workEmail')?.hasError('email')) {
+            <mat-error>Zadajte pracovný email v tvare meno@domena.sk.</mat-error>
+          }
+        </mat-form-field>
+
+        <!-- Position -->
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Funkcia na pracovisku</mat-label>
+
+          <input
+            matInput
+            formControlName="position"
+            data-testid="reg-position"
+            required>
+          <mat-error>Zadajte funkciu na pracovisku.</mat-error>
+        </mat-form-field>
+
+        <!-- Specialization -->
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Odborné zameranie</mat-label>
+
+          <input
+            matInput
+            formControlName="specialization"
+            data-testid="reg-specialization"
+            required>
+          <mat-error>Zadajte odborné zameranie.</mat-error>
+        </mat-form-field>
+
+        <!-- Navigation -->
+        <div class="form-actions">
+
+          <button
+            mat-stroked-button
+            type="button"
+            (click)="previousStep()"
+            data-testid="reg-back-3">
+            Späť
+          </button>
+
+          <button
+            mat-flat-button
+            color="primary"
+            type="button"
+            (click)="nextStep()"
+            data-testid="reg-next-3">
+            Pokračovať
+          </button>
+
+        </div>
+      }
+
+      <!-- ====================================== -->
+      <!-- STEP 4 - EDUCATION AND CONSENTS        -->
+      <!-- ====================================== -->
+      @if (registerStep === 4) {
+
+        <h2 #stepHeading tabindex="-1">Vzdelanie a členstvo</h2>
+
+        <!-- Graduation year -->
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Rok promócie</mat-label>
+
+          <input
+            matInput
+            type="number"
+            formControlName="graduationYear"
+            placeholder="Enter graduation year"
+            data-testid="reg-graduation"
+            required>
+          
+          @if (registerForm.get('graduationYear')?.hasError('required')) {
+            <mat-error>Zadajte rok promócie.</mat-error>
+          } @else {
+              <mat-error>Zadajte celý rok od 1900 do {{ currentYear }}.</mat-error>
+          }
+        </mat-form-field>
+
+        <!-- Medical Chamber -->
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Registrovaný v komore</mat-label>
+
+          <input
+            matInput
+            formControlName="chamber"
+            placeholder="Enter medical chamber"
+            data-testid="reg-chamber"
+            required>
+          <mat-error>Zadajte komoru, v ktorej ste registrovaný.</mat-error>
+        </mat-form-field>
+
+        <!-- License number -->
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Registračné číslo z registra komory</mat-label>
+
+          <input
+            matInput
+            formControlName="licenseId"
+            placeholder="Enter license number"
+            data-testid="reg-license"
+            required>
+          <mat-error>Zadajte registračné číslo z registra komory.</mat-error>
+        </mat-form-field>
+
+        <!-- Consents -->
+        <fieldset class="consents" [attr.aria-describedby]="showStep4Errors && !step4Valid ? 'consent-errors' : null">
+
+          <legend>Potvrdenia (všetky sú povinné)</legend>
+
+          <mat-checkbox
+            formControlName="agreeMembership"
+            data-testid="reg-agree-membership">
+            Súhlasím s podmienkami členstva.
+          </mat-checkbox>
+
+          <mat-checkbox
+            formControlName="agreePrivacy"
+            data-testid="reg-agree-privacy">
+            Súhlasím so zásadami ochrany osobných údajov.
+          </mat-checkbox>
+
+          <mat-checkbox
+            formControlName="confirmTruth"
+            data-testid="reg-confirm-truth">
+            Potvrdzujem, že uvedené informácie sú pravdivé.
+          </mat-checkbox>
+
+          <mat-checkbox
+            formControlName="agreeRules"
+            data-testid="reg-agree-rules">
+            Súhlasím s pravidlami.
+
+            <a href="/files/stanovy-sls.pdf" download>
+              Stiahnuť pravidlá
+            </a>
+          </mat-checkbox>
+
+          @if (showStep4Errors && !step4Valid) {
+            <ul class="error" id="consent-errors" role="alert">
+              @if (!registerForm.get('agreeMembership')?.value) {
+                <li>Potvrďte podmienky členstva.</li>
+              }
+              @if (!registerForm.get('agreePrivacy')?.value) {
+                <li>Potvrďte zásady ochrany osobných údajov.</li>
+              }
+              @if (!registerForm.get('confirmTruth')?.value) {
+                <li>Potvrďte pravdivosť údajov.</li>
+              }
+              @if (!registerForm.get('agreeRules')?.value) {
+                <li>Potvrďte pravidlá.</li>
+              }
+            </ul>
+          }
+        </fieldset>
+
+        <!-- Registration error -->
+        @if (registerError) {
+          <p class="error" role="alert">
+            {{ registerError }}
+          </p>
+        }
+
+        <!-- Navigation -->
+        <div class="form-actions">
+
+          <button
+            mat-stroked-button
+            type="button"
+            (click)="previousStep()"
+            data-testid="reg-back-4">
+            Späť
+          </button>
+
+          <button
+            mat-flat-button
+            color="primary"
+            type="button"
+            (click)="submit()"
+            [disabled]="isSubmitting"
+            data-testid="reg-submit">
+            Registrovať
+          </button>
+
+        </div>
+      }
+
+      <!-- ====================================== -->
+      <!-- STEP 5 - SUCCESS                       -->
+      <!-- ====================================== -->
+      @if (registerStep === 5) {
+
+        <div class="success" data-testid="register-success">
+
+          <div class="success-icon">
+            <mat-icon>check_circle</mat-icon>
+          </div>
+
+          <h2 class="success-title" #stepHeading tabindex="-1">
+            Registrácia úspešná
+          </h2>
+
+          <p
+            class="success-text"
+            data-testid="register-success-text">
+            Vaša registrácia bola úspešne potvrdena.
+          </p>
+
+          <button
+            mat-flat-button
+            color="primary"
+            class="full-width"
+            type="button"
+            (click)="goToLogin()"
+            data-testid="go-to-login-after-register">
+            Prihlásiť sa
+          </button>
+
+        </div>
+      }
+
+    </form>
+
+  </div>
+</div>

@@ -1,0 +1,7 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
+
+namespace Infectology.Library.DTOs.Requests.Content;
+
+public record DocumentCreateRequest(string Name);

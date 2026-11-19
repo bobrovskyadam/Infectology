@@ -1,0 +1,25 @@
+﻿<Project Sdk="MSTest.Sdk/4.2.3">
+
+	<PropertyGroup>
+		<TargetFramework>net10.0</TargetFramework>
+		<LangVersion>latest</LangVersion>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+		<TestingExtensionsProfile>AllMicrosoft</TestingExtensionsProfile>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Update="Microsoft.Testing.Extensions.CodeCoverage" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\Infectology.WebAPI\Infectology.WebAPI.csproj" />
+		<ProjectReference Include="..\Infectology.Library\Infectology.Library.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" />
+		<PackageReference Include="Moq" />
+	</ItemGroup>
+
+</Project>

@@ -1,0 +1,8 @@
+<app-header />
+<main id="top">
+    <router-outlet></router-outlet>
+</main>
+
+@if (!authService.isLoggedIn()) {
+    <app-footer />
+}

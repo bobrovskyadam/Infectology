@@ -1,0 +1,77 @@
+.documents-page {
+  max-width: 1000px;
+  margin: 48px auto;
+  padding: 0 24px;
+}
+
+.documents-header h1 {
+  margin-bottom: 8px;
+}
+
+.documents-header p {
+  color: var(--mat-sys-on-surface-variant);
+}
+
+.documents-list,
+.empty-state {
+  margin-top: 24px;
+  border-radius: 16px;
+}
+
+.documents-list {
+  border: 1px solid var(--mat-sys-outline-variant);
+  overflow: hidden;
+}
+
+.empty-state mat-card-content {
+  padding: 32px;
+  text-align: center;
+}
+
+.empty-state mat-icon {
+  color: var(--mat-sys-primary);
+}
+
+.document-actions {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.documents-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+}
+
+.add-card {
+  margin-top: 24px;
+}
+
+.add-card mat-card-content {
+  padding-top: 16px;
+}
+
+.add-form,
+.file-field {
+  display: grid;
+  gap: 16px;
+}
+
+.add-form mat-form-field {
+  width: 100%;
+}
+
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+@media (max-width: 600px) {
+  .documents-header {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+}

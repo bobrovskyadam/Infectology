@@ -1,0 +1,72 @@
+
+.home-container {
+  max-width: 1000px;
+  margin: 48px auto;
+  padding: 24px;
+}
+
+.home-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 24px;
+  margin-bottom: 32px;
+}
+
+.welcome h1 {
+  margin: 0;
+  font-size: 32px;
+  font-weight: 500;
+}
+
+.welcome p {
+  margin: 8px 0 0;
+  color: var(--mat-sys-on-surface-variant, #666);
+}
+
+.user-card {
+  max-width: 650px;
+  border-radius: 16px;
+}
+
+.user-avatar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--mat-sys-primary-container, #e3eafc);
+  color: var(--mat-sys-on-primary-container, #254b9b);
+  border-radius: 50%;
+}
+
+.role-row {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 24px;
+}
+
+.role-label {
+  font-weight: 500;
+}
+
+@media (max-width: 600px) {
+  .home-container {
+    margin: 24px auto;
+    padding: 16px;
+  }
+
+  .home-header {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .welcome h1 {
+    font-size: 26px;
+  }
+
+  .user-card {
+    width: 100%;
+    box-sizing: border-box;
+  }
+}

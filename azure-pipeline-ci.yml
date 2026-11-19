@@ -1,0 +1,101 @@
+trigger:
+  branches:
+    include:
+      - main
+
+pool:
+  vmImage: "windows-latest"
+
+variables:
+  sdkVersion: "10.x"
+  nodeVersion: "24.x"
+  buildConfiguration: "Release"
+  hostRuntime: "linux-x64"
+  solution: "**/*.slnx"
+  frontendProject: "Infectology.Frontend"
+  backendProject: "Infectology.WebAPI"
+  unitTestsProject: "Infectology.Tests"
+  e2eTestsProject: "Infectology.Tests.Playwright"
+  publishArguments: "--configuration $(buildConfiguration) --runtime $(hostRuntime)"
+  publishDirectory: "$(Build.ArtifactStagingDirectory)/publish"
+  frontendPublishDirectory: "$(publishDirectory)/frontend"
+  backendPublishDirectory: "$(publishDirectory)/backend"
+  frontendArtifact: "artifact-frontend"
+  backendArtifact: "artifact-backend"
+
+stages:
+- stage: CI
+  displayName: "Install, build, test, publish"
+  jobs:
+  - job: CI
+    displayName: "Install, build, test, publish"
+    steps:
+    
+    # FRONTEND ANGULAR
+    - task: NodeTool@0
+      displayName: "Install Node.js $(nodeVersion)"
+      inputs:
+        versionSpec: "$(nodeVersion)"
+
+    - task: Npm@1
+      displayName: "Install Angular dependencies"
+      inputs:
+        command: "install"
+        workingDir: "$(Build.SourcesDirectory)/$(frontendProject)"
+
+    - task: Npm@1
+      displayName: "Build Angular project"
+      inputs:
+        command: "custom"
+        workingDir: "$(Build.SourcesDirectory)/$(frontendProject)"
+        customCommand: "run build -- --configuration production --output-path $(frontendPublishDirectory)"
+
+    #  BACKEND (.NET)    
+    - task: UseDotNet@2
+      displayName: "Install .NET 10 SDK"
+      inputs:
+        packageType: "sdk"
+        version: "$(sdkVersion)"
+    
+    - task: DotNetCoreCLI@2
+      displayName: "Restore NuGet packages"
+      inputs: 
+        command: "restore"
+        projects: "$(solution)"
+
+    - task: DotNetCoreCLI@2
+      displayName: "Build solution"
+      inputs: 
+        command: "build"
+        projects: "$(solution)"
+        arguments: "--configuration $(buildConfiguration)"
+
+    #BACKEND TESTS
+    - task: DotNetCoreCLI@2
+      displayName: "Run unit tests"
+      inputs:
+        command: "test"
+        projects: "$(unitTestsProject)/$(unitTestsProject).csproj"
+        arguments: "--configuration $(buildConfiguration)"
+
+    #PUBLISH
+    - task: DotNetCoreCLI@2
+      displayName: "Publish backend build"
+      inputs:
+        command: "publish"
+        publishWebProjects: false
+        modifyOutputPath: false 
+        projects: "$(backendProject)"
+        arguments: "$(publishArguments) --output $(backendPublishDirectory)"
+
+    - task: PublishBuildArtifacts@1
+      displayName: "Create frontend artifact"
+      inputs: 
+        pathToPublish: "$(frontendPublishDirectory)"
+        artifactName: "$(frontendArtifact)"
+        
+    - task: PublishBuildArtifacts@1
+      displayName: "Create backend artifact"
+      inputs:
+        pathToPublish: "$(backendPublishDirectory)"
+        artifactName: "$(backendArtifact)"

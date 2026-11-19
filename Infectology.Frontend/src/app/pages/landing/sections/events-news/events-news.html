@@ -1,0 +1,77 @@
+<section id="podujatia" class="events" aria-labelledby="events-title">
+  <div class="inner">
+    <div class="head">
+      <div>
+        <p class="eyebrow">Aktuálne</p>
+        <h2 id="events-title">Podujatia a aktuality</h2>
+      </div>
+      <a class="all" href="#">
+        Všetky podujatia
+        <mat-icon aria-hidden="true">arrow_forward</mat-icon>
+      </a>
+    </div>
+
+    <div class="grid">
+      @if (featured(); as event) {
+        <article class="featured">
+          <span class="tag tag-light">Najbližšie podujatie</span>
+          <h3>{{ event.name }}</h3>
+
+          <div class="featured-foot">
+            <span class="meta">
+              <mat-icon aria-hidden="true">calendar_today</mat-icon>
+              {{ event.start | date: 'd. M. y' }}
+              @if (event.end) { – {{ event.end | date: 'd. M. y' }} }
+            </span>
+            <span class="meta">
+              <mat-icon aria-hidden="true">place</mat-icon>
+              {{ event.place }}
+            </span>
+            <a class="detail" [href]="event.link" target="_blank" rel="noopener">
+              Detail podujatia
+              <span class="visually-hidden">(otvorí sa v novom okne)</span>
+              <mat-icon aria-hidden="true">north_east</mat-icon>
+            </a>
+          </div>
+        </article>
+      }
+
+      <div class="side">
+        <section class="box" aria-labelledby="congress-title">
+          <h3 id="congress-title" class="box-title">Ďalšie podujatia</h3>
+          <ul>
+            @for (item of others(); track item.id) {
+              <li>
+                <a class="row" [href]="item.link" target="_blank" rel="noopener">
+                  <span class="date">{{ item.start | date: 'd. M. y' }}</span>
+                  <span class="row-text">
+                    <span class="row-title">{{ item.name }}</span>
+                    <span class="row-place">{{ item.place }}</span>
+                  </span>
+                  <mat-icon aria-hidden="true">north_east</mat-icon>
+                </a>
+              </li>
+            }
+          </ul>
+        </section>
+
+        <section class="box" aria-labelledby="news-title">
+          <h3 id="news-title" class="box-title">Zo spoločnosti</h3>
+          <ul>
+            @for (item of news; track item.title) {
+              <li>
+                <a class="row news-row" [href]="item.url">
+                  <span class="row-text">
+                    <span class="tag tag-soft">{{ item.tag }}</span>
+                    <span class="row-title">{{ item.title }}</span>
+                  </span>
+                  <mat-icon aria-hidden="true">north_east</mat-icon>
+                </a>
+              </li>
+            }
+          </ul>
+        </section>
+      </div>
+    </div>
+  </div>
+</section>

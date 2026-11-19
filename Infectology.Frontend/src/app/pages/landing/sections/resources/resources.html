@@ -1,0 +1,37 @@
+<section id="odborne-zdroje" class="resources" aria-labelledby="resources-title">
+  <div class="inner">
+    <div class="head">
+      <div>
+        <p class="eyebrow">Pre každodennú prax</p>
+        <h2 id="resources-title">Odborné zdroje</h2>
+      </div>
+      <a class="all" href="#" routerLink="/articles">
+        Všetky články
+        <mat-icon aria-hidden="true">arrow_forward</mat-icon>
+      </a>
+    </div>
+
+    <div class="columns">
+      @for (col of columns; track col.title) {
+        <div class="column">
+          <h3>
+            <mat-icon aria-hidden="true">{{ col.icon }}</mat-icon>
+            {{ col.title }}
+          </h3>
+          <p class="text">{{ col.text }}</p>
+
+          <ul>
+            @for (link of col.links; track link.label) {
+              <li>
+                <a class="row" [href]="link.url">
+                  <span>{{ link.label }}</span>
+                  <mat-icon aria-hidden="true">north_east</mat-icon>
+                </a>
+              </li>
+            }
+          </ul>
+        </div>
+      }
+    </div>
+  </div>
+</section>

@@ -1,0 +1,22 @@
+.article-detail-container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 24px;
+}
+
+.article-detail-card {
+  padding: 8px;
+}
+
+.article-detail-card img {
+  max-height: 450px;
+  object-fit: contain;
+  margin-top: 16px;
+}
+
+.article-content {
+  margin-top: 24px;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  line-height: 1.7;
+}

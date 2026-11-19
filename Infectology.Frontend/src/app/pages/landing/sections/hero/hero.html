@@ -1,0 +1,48 @@
+<section class="hero" aria-labelledby="hero-title">
+  <div class="inner">
+    <div class="text">
+      <p class="eyebrow">Infektológia</p>
+
+      <h1 id="hero-title">Odborná spoločnosť pre infektológiu na Slovensku<span class="dot">.</span></h1>
+
+      <p class="lead">
+        Združujeme lekárov, podporujeme vzdelávanie a prinášame overené poznatky
+        pre lepšiu diagnostiku, liečbu a prevenciu infekčných ochorení.
+      </p>
+
+      <div class="buttons">
+        <button mat-flat-button type="button" (click)="scrollTo('odborne-zdroje')">
+          Odborné zdroje
+          <mat-icon iconPositionEnd>arrow_forward</mat-icon>
+        </button>
+        <button mat-stroked-button type="button" (click)="scrollTo('podujatia')">
+          Bližiace sa podujatia
+          <mat-icon iconPositionEnd>calendar_today</mat-icon>
+        </button>
+      </div>
+
+      <dl class="facts">
+        @for (fact of facts; track fact.label) {
+          <div class="fact">
+            <dt>{{ fact.label }}</dt>
+            <dd>{{ fact.value }}</dd>
+          </div>
+        }
+      </dl>
+    </div>
+
+    <div class="visual">
+      <img src="assets/hero-microbiology.jpg" alt="Ilustrácia baktérií a vírusov pod mikroskopom" />
+      @if (nextEvent(); as event) {
+        <div class="event-card">
+          <strong>Najbližšie podujatie</strong>
+          <span>
+            {{ event.start | date: 'd. M. y'}}
+            @if (event.end) { - {{ event.end | date: 'd. M. y'}} }
+            · {{ event.place }}
+          </span>
+        </div>
+      }
+    </div>
+  </div>
+</section>

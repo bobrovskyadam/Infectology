@@ -1,0 +1,37 @@
+<section id="clenstvo" class="membership" aria-labelledby="membership-title">
+  <div class="inner">
+    <div class="text">
+      <p class="eyebrow">Členstvo v SSI</p>
+      <h2 id="membership-title">Staňte sa súčasťou odbornej komunity.</h2>
+      <p class="lead">
+        Členstvo je otvorené lekárom, ktorí pracujú v odbore infektológia a tropická
+        medicína alebo ich majú záujem.
+      </p>
+
+      <ul>
+        @for (benefit of benefits; track benefit) {
+          <li>
+            <mat-icon aria-hidden="true">check</mat-icon>
+            {{ benefit }}
+          </li>
+        }
+      </ul>
+
+      <div class="buttons">
+        <button mat-flat-button type="button">
+          Informácie o členstve
+          <mat-icon iconPositionEnd>arrow_forward</mat-icon>
+        </button>
+        <button mat-button type="button">
+          Registrácia
+          <mat-icon iconPositionEnd>arrow_forward</mat-icon>
+        </button>
+      </div>
+    </div>
+
+    <img
+      src="assets/membership-community.jpg"
+      alt="Lekári v bielych plášťoch počas odbornej diskusie"
+    />
+  </div>
+</section>
